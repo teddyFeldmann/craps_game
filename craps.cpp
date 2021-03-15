@@ -36,6 +36,17 @@ int main()
         CONTINUE = 2
     };
 
+    cout << "88888888888              888      888          d8b               .d8888b.                    d8b" << endl;                   
+    cout << "    888                  888      888          88P              d88P  Y88b                   Y8P"  << endl;           
+    cout << "    888                  888      888          8P               888    888                       " << endl;             
+    cout << "    888     .d88b.   .d88888  .d88888 888  888     .d8888b      888         8888b.  .d8888b  888 88888b.   .d88b.  " << endl;
+    cout << "    888    d8P  Y8b d88  888 d88' 888 888  888     88K          888            '88b 88K      888 888 88b  d88''88b" << endl;
+    cout << "    888    88888888 888  888 888  888 888  888     'Y8888b.     888    888 .d888888 'Y8888b. 888 888  888 888  888" << endl;
+    cout << "    888    Y8b.     Y88b 888 Y88b 888 Y88b 888          X88     Y88b  d88P 888  888      X88 888 888  888 Y88..88P " << endl;
+    cout << "    888     'Y8888   'Y88888  'Y88888  'Y88888      88888P'      'Y8888P'  'Y888888  88888P' 888 888  888  'Y88P' " << endl;  
+    cout << "                                           888 " << endl;                                                                   
+    cout << "                                     Y8b d88P  " << endl;                                                                   
+    cout << "                                      'Y88P' " << endl;
     cout << "Welcome to the Craps table!" << endl
          << endl;
     printInstructions();
@@ -47,8 +58,11 @@ int main()
         double pointBet;
 
         printBankBalance(balance);
+        cout << "Initial Bet:" << endl;
         pointBet = getMoneyNumberFromUser();
         cout << "Your bet is " << pointBet << endl;
+        cout << "******************************" << endl;
+        balance -= pointBet;
 
         int diceRoll = getDiceRoll();
         cout << "Your dice roll is " << diceRoll << endl;
@@ -56,13 +70,12 @@ int main()
         if (diceRoll == 7 || diceRoll == 11)
         {
             gameState = WON;
-            balance += pointBet;
-            cout << "You've won!!!!!" << endl;
+            balance += pointBet * 2;
+            cout << "You've won!!!!! Congratulations, you're a natural!" << endl;
         }
         else if (diceRoll == 2 || diceRoll == 3 || diceRoll == 12)
         {
             gameState = LOST;
-            balance -= pointBet;
             cout << "You lost :(" << endl;
         }
         else
@@ -98,6 +111,7 @@ int main()
                     cin >> numberBettingOn;
                     betAmt = getMoneyNumberFromUser();
                     placeBet(betAmt, numberBettingOn, fourBet, fiveBet, sixBet, eightBet, nineBet, tenBet);
+                    balance -= betAmt;
                 }
                 else
                 {
@@ -120,6 +134,7 @@ int main()
                     cin >> numberRemovingOn;
                     betAmt = getMoneyNumberFromUser();
                     removeBet(betAmt, numberRemovingOn, fourBet, fiveBet, sixBet, eightBet, nineBet, tenBet);
+                    balance += betAmt;
                 }
                 else
                 {
@@ -139,8 +154,9 @@ int main()
             if (diceRoll == point)
             {
                 gameState = WON;
-                balance += pointBet;
-                cout << "You've won!!!!!" << endl;
+                balance += pointBet * 2;
+                balance += (fourBet + fiveBet + sixBet + eightBet + nineBet + tenBet);
+                cout << "You've won!!!!! You must spend a lot of time in the casino" << endl;
             }
             else if (diceRoll == 2 || diceRoll == 3 || diceRoll == 11 || diceRoll == 12)
             {
@@ -149,8 +165,7 @@ int main()
             else if (diceRoll == 7)
             {
                 gameState = LOST;
-                balance -= pointBet;
-                cout << "You lost :(" << endl;
+                cout << "You lost :( The darn Seven! Better luck next time!" << endl;
                 updateBalanceFromBetsLoss(balance, fourBet, fiveBet, sixBet, eightBet, nineBet, tenBet);
             }
         }
@@ -158,7 +173,7 @@ int main()
         cout << "Your balance is " << balance << endl;
 
         char userDecision = 'x';
-        cout << "Press q to quit, h for help, or any other letter to continue" << endl;
+        cout << "Press q to walk away from the table, h to ask the dealer how the game works, or any other letter to continue" << endl;
         cin >> userDecision;
         if (userDecision == 'q')
         {
@@ -348,7 +363,18 @@ output: none
 void printInstructions()
 {
     cout << "************************************" << endl;
-    cout << "These are the instructions" << endl;
+    cout << "How to Play Craps:" << endl;
+    cout << "Place an initial bet." << endl;
+    cout << "Once you've made a bet, the dice will be rolled." << endl;
+    cout << "If this is a 7 or 11, you double your money, but if it is 2, 3, or 12, you lose." << endl;
+    cout << "If any other number, this is your point." << endl;
+    cout << "The game ends when a 7 is rolled, in which case you lose, or if your point number is rolled." << endl;
+    cout << "You can place bets on other numbers as well, with the following payouts" << endl;
+    cout << "   4 and 10 - 9:5" << endl;
+    cout << "   5 and 9 - 7:5" << endl;
+    cout << "   6 and 8 - 6:5" << endl;
+    cout << "If a 2, 3, 11, or 12 are rolled, the dice are rolled again." << endl;
+    cout << "You can remove a bet at any point." << endl;
     cout << "************************************" << endl;
 }
 
@@ -360,5 +386,85 @@ output: integer
 ****************************************************************/
 int getDiceRoll()
 {
-    return (rand() % 6 + 1) + (rand() % 6 + 1);
+    int roll = (rand() % 6 + 1) + (rand() % 6 + 1);
+    switch (roll) {
+        case 2:
+            cout << "----- -----" << endl;
+            cout << "|   | |   |" << endl;
+            cout << "| O | | O |" << endl;
+            cout << "|   | |   |" << endl;
+            cout << "----- -----" << endl;
+            break;
+        case 3:
+            cout << "----- -----" << endl;
+            cout << "|O  | |   |" << endl;
+            cout << "|   | | O |" << endl;
+            cout << "|  O| |   |" << endl;
+            cout << "----- -----" << endl;
+            break;
+        case 4:
+            cout << "----- -----" << endl;
+            cout << "|  O| |O  |" << endl;
+            cout << "|   | |   |" << endl;
+            cout << "|O  | |  O|" << endl;
+            cout << "----- -----" << endl;
+            break;
+        case 5:
+            cout << "----- -----" << endl;
+            cout << "|O  | |  O|" << endl;
+            cout << "| O | |   |" << endl;
+            cout << "|  O| |O  |" << endl;
+            cout << "----- -----" << endl;
+            break;
+        case 6:
+            cout << "----- -----" << endl;
+            cout << "|  O| |O  |" << endl;
+            cout << "| O | | O |" << endl;
+            cout << "|O  | |  O|" << endl;
+            cout << "----- -----" << endl;
+            break;
+        case 7:
+            cout << "----- -----" << endl;
+            cout << "|O  | |O O|" << endl;
+            cout << "| O | |   |" << endl;
+            cout << "|  O| |O O|" << endl;
+            cout << "----- -----" << endl;
+            break;
+        case 8:
+            cout << "----- -----" << endl;
+            cout << "|O O| |O O|" << endl;
+            cout << "|   | |   |" << endl;
+            cout << "|O O| |O O|" << endl;
+            cout << "----- -----" << endl;
+            break;
+        case 9:
+            cout << "----- -----" << endl;
+            cout << "|O O| |O O|" << endl;
+            cout << "|   | | O |" << endl;
+            cout << "|O O| |O O|" << endl;
+            cout << "----- -----" << endl;
+            break;
+        case 10:
+            cout << "----- -----" << endl;
+            cout << "|O O| |O O|" << endl;
+            cout << "| O | | O |" << endl;
+            cout << "|O O| |O O|" << endl;
+            cout << "----- -----" << endl;
+            break;
+        case 11:
+            cout << "----- -----" << endl;
+            cout << "|O O| |O O|" << endl;
+            cout << "|O O| | O |" << endl;
+            cout << "|O O| |O O|" << endl;
+            cout << "----- -----" << endl;
+            break;
+        case 12:
+            cout << "----- -----" << endl;
+            cout << "|O O| |O O|" << endl;
+            cout << "|O O| |O O|" << endl;
+            cout << "|O O| |O O|" << endl;
+            cout << "----- -----" << endl;
+            break;
+    }
+    return roll;
 }
